@@ -4,12 +4,21 @@ var completeSVG = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:x
 
 document.getElementById('add').addEventListener('click', () => {
     let value = document.getElementById('item').value;
-    if (value) addItemTodo(value);
-
-
+    if (value) {
+        addItemTodo(value);
+        document.getElementById('item').value = '';
+    }
 });
 
-function addItemTodo(text){
+function removeItem(e) {
+
+    let item = this.parentNode.parentNode;
+    let parent = item.parentNode;
+
+    parent.removeChild(item);   
+
+}
+function addItemTodo(text) {
 
     let list = document.getElementById('todo');
     let item = document.createElement('li');
@@ -22,6 +31,8 @@ function addItemTodo(text){
     remove.classList.add('remove');
     remove.innerHTML = removeSVG;
 
+    remove.addEventListener('click', removeItem);
+
     let complete = document.createElement('button');
     complete.classList.add('complete');
     complete.innerHTML = completeSVG;
@@ -31,5 +42,7 @@ function addItemTodo(text){
     item.appendChild(buttons);
 
     list.appendChild(item);
+
+    list.insertBefore(item, list.childNodes[0]);
 
 }
