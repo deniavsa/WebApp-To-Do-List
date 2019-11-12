@@ -13,8 +13,8 @@ document.getElementById('add').addEventListener('click', () => {
     let value = document.getElementById('item').value;
 
     if (value) {
-        
-        addItemTodo(value);
+
+        addItemToDOM(value);
         document.getElementById('item').value = '';
         data.todo.push(value);
 
@@ -24,9 +24,17 @@ document.getElementById('add').addEventListener('click', () => {
 document.getElementById('item').addEventListener('keydown', function (e) {
     var value = this.value;
     if ((e.code === 'Enter' || e.code === 'NumpadEnter') && value) {
-      addItem(value);
+        addItem(value);
     }
-  });
+});
+
+function addItem(value) {
+    addItemToDOM(value);
+    document.getElementById('item').value = '';
+
+    data.todo.push(value);
+    dataObjectUpdated();
+}
 
 function renderTodoList() {
 
@@ -34,16 +42,16 @@ function renderTodoList() {
 
     for (var i = 0; i < data.todo.length; i++) {
 
-      var value = data.todo[i];
-      addItemTodo(value);
+        var value = data.todo[i];
+        addItemToDOM(value);
     }
     for (var j = 0; j < data.completed.length; j++) {
 
-      var value = data.completed[j];
-      addItemTodo(value, true);
+        var value = data.completed[j];
+        addItemToDOM(value, true);
 
     }
-  }
+}
 function dataObjectUpdated() {
 
     localStorage.setItem('todoList', JSON.stringify(data));
@@ -93,9 +101,9 @@ function completeItem() {
     target.insertBefore(item, target.childNodes[0]);
 
 }
-function addItemTodo(text, completed) {
+function addItemToDOM(text, completed) {
 
-    let list = (completed) ? document.getElementById('completed'):document.getElementById('todo');
+    let list = (completed) ? document.getElementById('completed') : document.getElementById('todo');
 
     let item = document.createElement('li');
     item.innerHTML = text;
